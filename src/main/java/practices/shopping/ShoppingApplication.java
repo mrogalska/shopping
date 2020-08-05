@@ -2,12 +2,12 @@ package practices.shopping;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import practices.shopping.repository.ProductRepository;
-import practices.shopping.model.Product;
-import practices.shopping.controller.AppController;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
+@EnableJpaAuditing
+@EnableJpaRepositories
 public class ShoppingApplication {
 
 	public static void main(String[] args) {
