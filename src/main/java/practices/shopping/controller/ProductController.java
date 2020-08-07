@@ -38,20 +38,14 @@ public class ProductController {
         return ResponseEntity.ok().body(productEntity);
     }
 
+
     @RequestMapping(value = "/products/{id}", method = RequestMethod.PUT)
     public ResponseEntity <ProductEntity> updateProduct(@PathVariable(value = "id") Long productId, @Validated @RequestBody ProductEntity productDetails){
         ProductEntity productEntity = productRepository.getOne(productId);
 
-        if (productDetails.getProductName() != null){
-            productEntity.setProductName(productDetails.getProductName());
-        }
-        if (productDetails.getPrice() != 0){
-            productEntity.setPrice(productDetails.getPrice());
-        }
-        if (productDetails.getAmount() != 0){
-            productEntity.setAmount(productDetails.getAmount());
-        }
-
+        productEntity.setProductName(productDetails.getProductName());
+        productEntity.setPrice(productDetails.getPrice());
+        productEntity.setAmount(productDetails.getAmount());
 
         return ResponseEntity.ok(this.productRepository.save(productEntity));
     }
@@ -62,5 +56,6 @@ public class ProductController {
     void deleteProduct(@PathVariable(value = "id") Long productId) {
         productRepository.deleteById(productId);
     }
+
 
 }
