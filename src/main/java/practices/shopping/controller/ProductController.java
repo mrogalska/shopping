@@ -1,5 +1,6 @@
 package practices.shopping.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import java.util.Optional;
 
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class ProductController {
 
     private final ProductRepository productRepository;
@@ -27,9 +29,10 @@ public class ProductController {
         return this.productRepository.findAll();
     }
 
-    @RequestMapping(value = "/products", method = RequestMethod.POST)
-    public ProductEntity createProduct(@RequestBody ProductEntity productEntity) {
-        return this.productRepository.save(productEntity);
+    @RequestMapping(value = "/products", method = RequestMethod.POST, produces = "application/json", consumes = "application/json")
+    public ResponseEntity<ProductEntity> createProduct(@RequestBody ProductEntity productEntity) {
+        return new ResponseEntity<>(this.productRepository.save(productEntity), HttpStatus.OK);
+
     }
 
     @RequestMapping(value = "/products/{id}", method = RequestMethod.GET)
@@ -43,7 +46,7 @@ public class ProductController {
     public ResponseEntity <ProductEntity> updateProduct(@PathVariable(value = "id") Long productId, @Validated @RequestBody ProductEntity productDetails){
         ProductEntity productEntity = productRepository.getOne(productId);
 
-        productEntity.setProductName(productDetails.getProductName());
+        productEntity.setName(productDetails.getName());
         productEntity.setPrice(productDetails.getPrice());
         productEntity.setAmount(productDetails.getAmount());
 

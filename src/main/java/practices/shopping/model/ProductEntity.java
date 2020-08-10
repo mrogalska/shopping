@@ -8,9 +8,10 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "product_table")
+@Table(name = "products")
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 
 public class ProductEntity implements Serializable {
 
@@ -19,43 +20,11 @@ public class ProductEntity implements Serializable {
     private long id;
 
     @Column(length = 500)
-    private String productName;
+    private String name;
 
     @Column()
-    private int amount;
+    private double amount;
 
     @Column()
     private double price;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
 }
