@@ -7,10 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import practices.shopping.model.ProductEntity;
 import practices.shopping.repository.ProductRepository;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 
 @RestController
@@ -25,7 +22,7 @@ public class ProductController {
 
 
     @RequestMapping(value = "/products", method = RequestMethod.GET)
-    public List<ProductEntity> getAllProducts(){
+    public List<ProductEntity> getAllProducts() {
         return this.productRepository.findAll();
     }
 
@@ -36,23 +33,26 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/products/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Optional<ProductEntity>> getProductById(@PathVariable(value = "id") Long productId){
+    public ResponseEntity<Optional<ProductEntity>> getProductById(@PathVariable(value = "id") Long productId) {
         Optional<ProductEntity> productEntity = productRepository.findById(productId);
         return ResponseEntity.ok().body(productEntity);
     }
 
 
     @RequestMapping(value = "/products/{id}", method = RequestMethod.PUT)
-    public ResponseEntity <ProductEntity> updateProduct(@PathVariable(value = "id") Long productId, @Validated @RequestBody ProductEntity productDetails){
-        ProductEntity productEntity = productRepository.getOne(productId);
-
-        productEntity.setName(productDetails.getName());
-        productEntity.setPrice(productDetails.getPrice());
-        productEntity.setAmount(productDetails.getAmount());
-
-        return ResponseEntity.ok(this.productRepository.save(productEntity));
+    public ResponseEntity<ProductEntity> updateProduct(@PathVariable(value = "id") Long productId, @Validated @RequestBody ProductEntity productDetails) {
+        Optional<ProductEntity> productEntityOptional = productRepository.findById(productId);
+        ProductEntity productEntity;
+        try {
+            productEntity = productEntityOptional.get();
+            productEntity.setName(productDetails.getName());
+            productEntity.setPrice(productDetails.getPrice());
+            productEntity.setAmount(productDetails.getAmount());
+        } catch (NoSuchElementException ex) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(this.productRepository.save(productEntity), HttpStatus.OK);
     }
-
 
 
     @RequestMapping(value = "/products/{id}", method = RequestMethod.DELETE)
