@@ -23,8 +23,9 @@ public class ProductEntity implements Serializable {
     private String name;
 
     @Column()
-    private double amount;
+    private double price;
 
     @Column()
-    private double price;
+    private String category;
+
 }

@@ -46,8 +46,8 @@ public class ProductController {
         try {
             productEntity = productEntityOptional.get();
             productEntity.setName(productDetails.getName());
+            productEntity.setCategory(productDetails.getCategory());
             productEntity.setPrice(productDetails.getPrice());
-            productEntity.setAmount(productDetails.getAmount());
         } catch (NoSuchElementException ex) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
