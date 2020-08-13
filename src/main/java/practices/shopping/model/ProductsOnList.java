@@ -28,4 +28,39 @@ public class ProductsOnList {
     ListEntity listEntity;
 
     int amount;
+
+
+    public ProductsOnListKey getId() {
+        return id;
+    }
+
+    public void setId(ProductsOnListKey id) {
+        this.id = id;
+    }
+
+    public ProductEntity getProductEntity() {
+        return productEntity;
+    }
+
+    public void setProductEntity(ProductEntity productEntity) {
+        this.productEntity = productEntity;
+    }
+
+    public ListEntity getListEntity() {
+        return listEntity;
+    }
+
+    public void setListEntity(ListEntity listEntity) {
+        this.listEntity = listEntity;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+
 }
