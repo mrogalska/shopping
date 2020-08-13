@@ -26,7 +26,7 @@ public class ProductsOnList {
     @MapsId("list_id")
     @JoinColumn(name = "list_id")
     ListEntity listEntity;
-
+    // during saving, make sure this will not be sent as negative or 0
     int amount;
 
 

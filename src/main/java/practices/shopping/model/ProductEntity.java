@@ -23,13 +23,14 @@ public class ProductEntity implements Serializable {
 
     @Column(length = 500)
     private String name;
-
+    //lookup double disadvantages
     @Column(columnDefinition = "default double 0.0")
     private double price;
 
     @Column()
     private String category;
 
+    //onLists or onList?
     @OneToMany(mappedBy = "productEntity")
     Set<ProductsOnList> productsOnLists;
 

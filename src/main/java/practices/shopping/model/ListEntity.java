@@ -13,16 +13,18 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-
+// I recommend renaming this class. List is too broad. GroceryPlan or something.
+// Shitf+f6 on class name below and rename, don't forget to rename things like @Table(name = "lists")
 public class ListEntity {
 
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column()
+    @Column() //something missing in ()?
     private String name;
 
+    // find out why lombok does not work in your workspace
     public long getId() {
         return id;
     }
