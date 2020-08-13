@@ -28,9 +28,17 @@ public class ProductController {
     }
 
 
+    
     @RequestMapping(value = "/products", method = RequestMethod.GET)
-    public List<ProductEntity> getAllProducts() {
-        return this.productRepository.findAll();
+    public ResponseEntity<List<ProductEntity>> getAllProducts() {
+        return new ResponseEntity<>(this.productRepository.findAll(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/products/{id}", method = RequestMethod.GET)
+    public ResponseEntity<ProductEntity> getProductById(@PathVariable(value = "id") Long productId) {
+        Optional<ProductEntity> productEntityOptional = productRepository.findById(productId);
+        ProductEntity productEntity = productEntityOptional.get();
+        return new ResponseEntity<>(productEntity, HttpStatus.OK);
     }
 
 
@@ -40,15 +48,7 @@ public class ProductController {
     public ResponseEntity<ProductEntity> createProduct(@RequestBody ProductEntity productEntity) {
         return new ResponseEntity<>(this.productRepository.save(productEntity), HttpStatus.OK);
     }
-
-
-
-
-    @RequestMapping(value = "/products/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Optional<ProductEntity>> getProductById(@PathVariable(value = "id") Long productId) {
-        Optional<ProductEntity> productEntity = productRepository.findById(productId);
-        return ResponseEntity.ok().body(productEntity);
-    }
+    
 
 
 

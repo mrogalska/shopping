@@ -27,9 +27,17 @@ public class ListController {
         this.listRepository = listRepository;
     }
 
+
     @RequestMapping(value = "/lists", method = RequestMethod.GET)
-    public List<ListEntity> getAllLists() {
-        return this.listRepository.findAll();
+    public ResponseEntity<List<ListEntity>> getAllLists() {
+        return new ResponseEntity<>(this.listRepository.findAll(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/lists/{id}", method = RequestMethod.GET)
+    public ResponseEntity<ListEntity> getListById(@PathVariable(value = "id") Long listId) {
+        Optional<ListEntity> listEntityOptional = listRepository.findById(listId);
+        ListEntity listEntity = listEntityOptional.get();
+        return new ResponseEntity<>(listEntity, HttpStatus.OK);
     }
 
 
@@ -39,24 +47,16 @@ public class ListController {
     }
 
 
-    @RequestMapping(value = "/lists/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Optional<ListEntity>> getListById(@PathVariable(value = "id") Long listId) {
-        Optional<ListEntity> listEntity = listRepository.findById(listId);
-        return ResponseEntity.ok().body(listEntity);
-    }
-
-
     @RequestMapping(value = "/lists/{listId}/products/add/{productId}", method = RequestMethod.PUT)
     public ResponseEntity<ListEntity> updateList(@PathVariable(value = "listId") Long listId,
-                                                 @PathVariable(value = "productId") Long productId,
-                                                 @Validated @RequestBody ListEntity listDetails) {
+            @PathVariable(value = "productId") Long productId, @Validated @RequestBody ListEntity listDetails) {
         Optional<ListEntity> listEntityOptional = listRepository.findById(listId);
         Optional<ProductEntity> productEntityOptional = productRepository.findById(productId);
         ListEntity listEntity;
         ProductEntity productEntity;
         try {
             listEntity = listEntityOptional.get();
-//            productEntity = productEntityOptional.get();
+            // productEntity = productEntityOptional.get();
             ProductsOnList newProduct = new ProductsOnList();
             newProduct.setAmount(newProduct.getAmount());
             newProduct.setListEntity(listEntity);
@@ -68,7 +68,6 @@ public class ListController {
         }
         return new ResponseEntity<>(this.listRepository.save(listEntity), HttpStatus.OK);
     }
-
 
     @RequestMapping(value = "/list/{id}", method = RequestMethod.DELETE)
     void deleteList(@PathVariable(value = "id") Long listId) {
